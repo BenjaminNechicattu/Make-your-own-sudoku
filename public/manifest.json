@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "MYOS — Make Your Own Sudoku",
+  "short_name": "MYOS",
+  "description": "Create your own Sudoku clues and solve the puzzle yourself.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#3189ee",
+  "background_color": "#f5f8fc",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

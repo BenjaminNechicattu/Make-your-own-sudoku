@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "MYOS",
+    "slug": "myos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "web": {
+      "name": "MYOS — Make Your Own Sudoku",
+      "shortName": "MYOS",
+      "description": "Create your own Sudoku clues and solve the puzzle yourself.",
+      "themeColor": "#3189ee",
+      "backgroundColor": "#f5f8fc",
+      "display": "standalone",
+      "startUrl": "./",
+      "scope": "./",
+      "orientation": "portrait"
+    },
+    "android": {
+      "package": "com.myos.sudoku"
+    }
+  }
+}
