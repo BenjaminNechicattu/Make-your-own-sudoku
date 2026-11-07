@@ -33,6 +33,7 @@ import {
   MAX_LIVES,
   MAX_SOLUTION_COUNT,
   MUTED,
+  PRIVACY_POLICY_URL,
   SIZE,
   SOLUTION_COUNT_LIMIT,
   STORAGE_KEY,
@@ -1036,6 +1037,15 @@ export default function App() {
     }
   };
 
+  const openPrivacyPolicy = async () => {
+    try {
+      await Linking.openURL(PRIVACY_POLICY_URL);
+    } catch (error) {
+      logError('Unable to open the privacy policy:', error);
+      setStorageError('The privacy policy could not be opened.');
+    }
+  };
+
   const installApp = async () => {
     if (!deferredInstallPrompt) {
       dismissMobileInstallPrompt();
@@ -1410,10 +1420,18 @@ export default function App() {
                   Privacy by design
                 </Text>
                 <Text style={[styles.aboutParagraph, darkMode && styles.darkSecondaryText]}>
-                  Your game data is saved locally on your device. No accounts, no
-                  cloud storage, and no puzzle generation. MYOS is all about
-                  creating and solving Sudoku puzzles yourself.
+                  Your game data is saved locally on your device. MYOS does not
+                  sync it to cloud storage. Android backups may include app data
+                  if enabled in your device settings. No accounts or puzzle
+                  generation — just creating and solving Sudoku puzzles yourself.
                 </Text>
+                <Pressable
+                  accessibilityRole="link"
+                  onPress={() => void openPrivacyPolicy()}
+                  style={styles.aboutLinkButton}
+                >
+                  <Text style={styles.aboutLink}>Privacy policy</Text>
+                </Pressable>
                 <Text style={[styles.aboutSectionHeading, darkMode && styles.darkPrimaryText]}>
                   About the Developer
                 </Text>

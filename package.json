@@ -7,6 +7,8 @@
     "start": "expo start",
     "web": "expo start --web --host lan",
     "android": "expo start --android",
+    "build:android:preview": "npx eas-cli@latest build --platform android --profile preview",
+    "build:android:production": "npx eas-cli@latest build --platform android --profile production",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -3,6 +3,7 @@
     "name": "MYOS",
     "slug": "myos",
     "version": "1.0.0",
+    "icon": "./assets/icon.png",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "web": {
@@ -17,7 +18,18 @@
       "orientation": "portrait"
     },
     "android": {
-      "package": "com.myos.sudoku"
-    }
+      "package": "com.myos.sudoku",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#3189ee"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1199a061-d524-42d4-a104-1b2fdbf5a77b"
+      }
+    },
+    "owner": "habitash"
   }
 }

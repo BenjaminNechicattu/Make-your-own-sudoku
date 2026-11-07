@@ -7,6 +7,8 @@ export const MAX_HINTS = 5;
 export const SOLUTION_COUNT_LIMIT = 11;
 export const MAX_SOLUTION_COUNT = 101;
 export const APP_VERSION = appConfig.expo.version;
+export const PRIVACY_POLICY_URL =
+  'https://benjaminnechicattu.github.io/Make-your-own-sudoku/privacy-policy.html';
 export const BLUE = '#3189ee';
 export const INK = '#263d57';
 export const MUTED = '#7c8797';

@@ -13,6 +13,32 @@ npm run android
 npm run web
 ```
 
+## Google Play release
+
+MYOS is an Expo Android app. `npm run android` starts the development app; it
+does not create a Play Store release.
+
+1. Create or sign in to an Expo account, then run `npx eas-cli@latest login`.
+2. Link this app to your Expo project with `npx eas-cli@latest init`.
+3. Make and test an installable preview APK with `npm run build:android:preview`.
+4. Create a production Android App Bundle with
+   `npm run build:android:production`, then upload the `.aab` from the EAS build
+   to a Play Console testing track.
+5. Publish [`privacy-policy.html`](./privacy-policy.html) on GitHub Pages by
+   enabling Pages for the `main` branch and repository root. Verify the page is
+   publicly accessible at
+   `https://benjaminnechicattu.github.io/Make-your-own-sudoku/privacy-policy.html`,
+   then enter that URL in Play Console. Complete Play Console's app content,
+   data safety, target audience, and store listing requirements before
+   requesting review. Prepare store listing copy, screenshots, and a feature
+   graphic; the app icon is in `assets/icon.png`.
+
+The Android application ID is `com.myos.sudoku`; choose and verify the final ID
+before the first Play release because it cannot be changed for an existing
+store listing. Increment `android.versionCode` in `app.json` for each release.
+Play Console enrollment, listing declarations, review, and publication require
+the app owner's account and cannot be completed by an EAS build.
+
 For phone browsers on the same Wi-Fi, `npm run web` serves the app over your
 local network. Use `npx expo start --web --tunnel` if your network blocks
 connections between devices.
