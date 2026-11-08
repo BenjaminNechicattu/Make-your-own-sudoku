@@ -193,34 +193,45 @@ export default function App() {
     if (Platform.OS !== 'web' || typeof window === 'undefined') return undefined;
     const userAgent = window.navigator.userAgent;
     const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
-    if (!isMobile) return undefined;
-
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       ('standalone' in window.navigator &&
         (window.navigator as Navigator & { standalone?: boolean }).standalone ===
           true);
-    if (isStandalone) return undefined;
 
-    setIsIOSBrowser(/iPhone|iPad|iPod/i.test(userAgent));
-
-    const manifestLink = document.querySelector<HTMLLinkElement>(
-      'link[rel="manifest"]',
-    );
-    if (!manifestLink) {
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = new URL('manifest.json', document.baseURI).toString();
-      document.head.appendChild(link);
+    if (isMobile) {
+      const manifestLink = document.querySelector<HTMLLinkElement>(
+        'link[rel="manifest"]',
+      );
+      if (!manifestLink) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = new URL('manifest.json', document.baseURI).toString();
+        document.head.appendChild(link);
+      }
     }
 
     if ('serviceWorker' in window.navigator) {
       void window.navigator.serviceWorker
         .register(new URL('service-worker.js', document.baseURI).toString())
+        .then(() =>
+          window.navigator.serviceWorker.ready.then((registration) => {
+            const urls = performance
+              .getEntriesByType('resource')
+              .map((entry) => new URL(entry.name, document.baseURI))
+              .filter((url) => url.origin === window.location.origin)
+              .map((url) => url.href);
+            registration.active?.postMessage({ type: 'CACHE_URLS', urls });
+          }),
+        )
         .catch((error: unknown) => {
           logError('Unable to register MYOS service worker:', error);
         });
     }
+
+    if (!isMobile || isStandalone) return undefined;
+
+    setIsIOSBrowser(/iPhone|iPad|iPod/i.test(userAgent));
 
     const handleInstallPrompt = (event: Event) => {
       event.preventDefault();

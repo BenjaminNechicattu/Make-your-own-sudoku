@@ -50,8 +50,10 @@ connections between devices.
 On a smartphone browser, MYOS offers an install prompt when the browser supports
 installation. Otherwise it shows the browser-specific Add to Home Screen steps.
 The prompt is remembered after it is dismissed.
-For install and service-worker support on deployed sites, serve the web export
-over HTTPS.
+After opening the web app online at least once, its installed version caches the
+app and its loaded resources for offline use. The service worker also saves
+resources as they are loaded. Serve the web export over HTTPS for installation
+and offline support (localhost is also supported for development).
 
 Create a new game from Home, tap squares and enter numbers for your starting
 clues, then select **Start solving** to lock the clues and fill in the rest.

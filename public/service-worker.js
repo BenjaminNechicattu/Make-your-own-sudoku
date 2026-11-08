@@ -1,4 +1,4 @@
-const CACHE_NAME = 'myos-web-v1';
+const CACHE_NAME = 'myos-web-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -24,6 +24,36 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data?.type !== 'CACHE_URLS' || !Array.isArray(event.data.urls)) {
+    return;
+  }
+
+  const urls = event.data.urls.filter((url) => {
+    try {
+      return new URL(url).origin === self.location.origin;
+    } catch {
+      return false;
+    }
+  });
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) =>
+      Promise.all(
+        urls.map((url) =>
+          fetch(url)
+            .then((response) => {
+              if (response.ok) return cache.put(url, response);
+              return undefined;
+            })
+            .catch((error) => {
+              console.warn('Unable to cache MYOS offline resource:', error);
+            }),
+        ),
+      ),
+    ),
+  );
+});
+
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const requestUrl = new URL(request.url);
@@ -32,24 +62,29 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    fetch(request)
-      .then((response) => {
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+
+      if (request.mode !== 'navigate') {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+      }
+
+      try {
+        const response = await fetch(request);
         if (response.ok) {
-          const responseCopy = response.clone();
-          void caches
-            .open(CACHE_NAME)
-            .then((cache) => cache.put(request, responseCopy));
+          await cache.put(request, response.clone());
         }
         return response;
-      })
-      .catch(async () => {
-        const cached = await caches.match(request);
+      } catch {
+        const cached = await cache.match(request);
         if (cached) return cached;
         if (request.mode === 'navigate') {
-          const appShell = await caches.match('./');
+          const appShell = await cache.match('./');
           if (appShell) return appShell;
         }
         return new Response('MYOS is unavailable offline.', { status: 503 });
-      }),
+      }
+    })(),
   );
 });
