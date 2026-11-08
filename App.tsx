@@ -15,6 +15,7 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import type { TextInputInstance } from 'react-native';
 import {
   APP_VERSION,
   BLUE,
@@ -139,7 +140,13 @@ export default function App() {
   const [expandedPuzzle, setExpandedPuzzle] = useState<CompletedPuzzle | null>(
     null,
   );
-  const keyboardRef = useRef<TextInput>(null);
+  const keyboardRef = useRef<TextInputInstance>(null);
+  const isMobileWebKeyboard =
+    Platform.OS === 'web' &&
+    typeof window !== 'undefined' &&
+    /Android|iPhone|iPad|iPod|Mobile/i.test(window.navigator.userAgent);
+  const shouldEnableKeyboardCapture =
+    Platform.OS === 'web' && !isMobileWebKeyboard;
   const solutionRef = useRef<Board | null>(null);
   const screenRef = useRef<Screen>(screen);
   const persistedStateRef = useRef<PersistedState | null>(null);
@@ -2444,7 +2451,7 @@ export default function App() {
           maxLength={1}
           caretHidden
           contextMenuHidden
-          showSoftInputOnFocus
+          showSoftInputOnFocus={shouldEnableKeyboardCapture}
         />
 
         <View style={styles.stats}>
@@ -2518,6 +2525,7 @@ export default function App() {
                       if (
                         !finished &&
                         !quickInputEnabled &&
+                        shouldEnableKeyboardCapture &&
                         (mode === 'create' || !givens[rowIndex][colIndex])
                       ) {
                         keyboardRef.current?.focus();

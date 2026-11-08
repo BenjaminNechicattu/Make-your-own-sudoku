@@ -7,10 +7,14 @@ On first launch, MYOS asks for your name; you can change it later in Settings.
 
 ## Run
 
+This project uses Expo SDK 58. Use an Expo Go version compatible with SDK 58
+when opening it on a phone.
+
 ```sh
 npm install
 npm run android
 npm run web
+npx expo start --web --tunnel
 ```
 
 ## Google Play release

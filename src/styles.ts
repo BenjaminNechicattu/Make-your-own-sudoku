@@ -1149,8 +1149,9 @@ export const styles = StyleSheet.create({
   numberPad: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 5,
-    marginBottom: 9,
+    marginTop: 20,
+    marginBottom: 12,
+    paddingBottom: 8,
   },
   numberButton: {
     width: '10.4%',

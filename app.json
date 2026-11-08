@@ -30,6 +30,9 @@
         "projectId": "1199a061-d524-42d4-a104-1b2fdbf5a77b"
       }
     },
-    "owner": "habitash"
+    "owner": "habitash",
+    "plugins": [
+      "expo-status-bar"
+    ]
   }
 }
